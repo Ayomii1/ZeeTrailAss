@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Greeting</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+</head>
+
+<body>
+    <div class="card">
+        <h1 id="greeting"></h1>
+
+        <!-- Form -->
+        <form id="form">
+            <label for="name" style="padding-right: 170px;">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Your name.." required>
+            <div class="btn">
+                <button type="submit">Submit</button>
+                <button id="clear-name">Clear Name</button>
+            </div>
+        </form>
+
+    </div>
+    <!-- scripting language to generate the personlaized grteeting -->
+    <script>
+        const form = document.getElementById('form');
+        const greeting = document.getElementById('greeting');
+        const nameInput = document.getElementById('name');
+        const clearNameButton = document.getElementById('clear-name');
+
+        // Function text input asking for the user's name
+        function loadGreeting() {
+            const name = localStorage.getItem('name');
+            if (name) {
+                nameInput.value = name;
+                showGreeting(name);
+            }
+        }
+        // Function to generate the personalized greeting based on user's input
+        function showGreeting(name) {
+            greeting.textContent = `Hello, ${name}!`;
+        }
+        // function to save name to local storage
+        function saveName(name) {
+            localStorage.setItem('name', name);
+        }
+        // function called clearName that removes the stored name.
+        function clearName() {
+            localStorage.removeItem('name');
+            nameInput.value = '';
+            showGreeting('');
+        }
+        // Adding an event listener to the clear button to call the clearStoredName. 
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const name = nameInput.value;
+            saveName(name);
+            showGreeting(name);
+        });
+        // the stored name (if any) and personalize the greeting accordingly
+        clearNameButton.addEventListener('click', clearName);
+
+        loadGreeting();
+    </script>
+</body>
+
+</html>
+
+
